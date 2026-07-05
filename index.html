@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FoodKin — Evdeki yiyecekleri bilen mutfak asistanı</title>
+  <meta name="description" content="Kiler takibi, yapay zekâ tarifleri ve israf takibi tek uygulamada. FoodKin yakında App Store'da — bekleme listesine katıl, ilk gün haberdar ol." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FoodKin — Evdeki yiyecekleri bilen mutfak asistanı" />
+  <meta property="og:description" content="Barkod, fiş ve raf fotoğrafıyla kilerini tanır; eldeki malzemeye göre tarif üretir; israfını parayla gösterir. Bekleme listesine katıl." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://berkayaskar06.github.io/foodkin-landing/" />
+  <meta name="twitter:card" content="summary" />
+
+  <style>
+    :root {
+      --paper: #FFFDF9;
+      --ink: #33302A;
+      --ink-soft: #6B6560;
+      --green: #4A7C59;
+      --green-dark: #3D6549;
+      --orange: #E67E30;
+      --line: #E8E3DA;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, .serif {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+
+    header { padding: 48px 0 0; }
+    .brand {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      color: var(--green);
+      letter-spacing: 0.02em;
+    }
+    .brand em { font-style: normal; color: var(--orange); }
+
+    .hero { padding: 72px 0 56px; }
+    .hero h1 { font-size: clamp(34px, 6vw, 48px); margin-bottom: 20px; }
+    .hero h1 .accent { color: var(--green); }
+    .hero p.lead { font-size: 19px; color: var(--ink-soft); max-width: 34em; }
+
+    .signup { padding: 8px 0 64px; }
+    .signup form { display: flex; gap: 10px; flex-wrap: wrap; }
+    .signup input[type="email"] {
+      flex: 1 1 260px;
+      min-height: 52px;
+      padding: 0 16px;
+      font-size: 17px;
+      font-family: inherit;
+      color: var(--ink);
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      outline: none;
+    }
+    .signup input[type="email"]:focus { border-color: var(--green); }
+    .signup button {
+      min-height: 52px;
+      padding: 0 26px;
+      font-size: 17px;
+      font-family: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: var(--green);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .signup button:hover { background: var(--green-dark); }
+    .signup button:disabled { opacity: 0.6; cursor: default; }
+    .signup .note { font-size: 14px; color: var(--ink-soft); margin-top: 12px; }
+    .signup .msg { margin-top: 14px; font-size: 16px; display: none; }
+    .signup .msg.ok { display: block; color: var(--green-dark); }
+    .signup .msg.err { display: block; color: #A94434; }
+
+    .rule { border: none; border-top: 1px solid var(--line); margin: 0; }
+
+    .features { padding: 56px 0; }
+    .features h2 { font-size: 26px; margin-bottom: 36px; }
+    .feature { display: flex; gap: 18px; margin-bottom: 32px; align-items: baseline; }
+    .feature .num {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      color: var(--orange);
+      flex: 0 0 32px;
+    }
+    .feature h3 { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+    .feature p { color: var(--ink-soft); font-size: 16px; max-width: 32em; }
+
+    footer { padding: 40px 0 56px; }
+    footer p { font-size: 14px; color: var(--ink-soft); }
+    footer .social a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+      margin-right: 16px;
+    }
+    footer .social { margin-bottom: 10px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero, .signup { animation: rise 0.6s ease both; }
+      .signup { animation-delay: 0.1s; }
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: none; }
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="brand">Food<em>Kin</em></div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <h1>Evdeki yiyecekleri <span class="accent">bilen</span> mutfak asistanı</h1>
+      <p class="lead">Ne aldığını, neyin bitmek üzere olduğunu ve bu hafta ne pişireceğini sen düşünme. FoodKin kilerini tanır, tarif önerir, israfını parayla gösterir.</p>
+    </section>
+
+    <section class="signup wrap">
+      <form id="waitlist-form" novalidate>
+        <input type="email" id="email" name="email" placeholder="e-posta adresin" required autocomplete="email" inputmode="email" aria-label="E-posta adresi" />
+        <button type="submit" id="submit-btn">Bekleme listesine katıl</button>
+      </form>
+      <p class="note">Yakında App Store'da. Çıktığı gün sana haber veririz — başka e-posta yok, spam yok.</p>
+      <p class="msg" id="msg" role="status"></p>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="features wrap">
+      <h2>Satın almadan israfa, tüm döngü tek yerde</h2>
+
+      <div class="feature">
+        <span class="num">01</span>
+        <div>
+          <h3>Saniyeler içinde kiler</h3>
+          <p>Barkod okut, market fişinin fotoğrafını çek ya da dolabın rafını görüntüle — FoodKin ürünleri tanır ve kilerine ekler. Elle liste tutmak yok.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <span class="num">02</span>
+        <div>
+          <h3>Eldekiyle tarif</h3>
+          <p>"Bu akşam ne pişirsem?" sorusunu kilerin cevaplar. Yapay zekâ, evde gerçekten olan malzemelere göre tarif üretir; eksikler tek dokunuşla alışveriş listesine düşer.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <span class="num">03</span>
+        <div>
+          <h3>İsrafı parayla gör</h3>
+          <p>Son kullanma tarihi yaklaşanlar için zamanında uyarı; ay sonunda "çöpe giden" ile "kurtarılan"ın hesabı. Küçük alışkanlıklar, görünür tasarruf.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <span class="num">04</span>
+        <div>
+          <h3>Tüm hane, tek kiler</h3>
+          <p>Ev arkadaşın markete gitti, sen evde tencere kaynattın — herkes aynı kileri ve aynı listeyi görür, anında.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" />
+  </main>
+
+  <footer class="wrap">
+    <p class="social">
+      <a href="https://www.tiktok.com/@foodkinapp">TikTok</a>
+      <a href="https://www.instagram.com/foodkinapp">Instagram</a>
+    </p>
+    <p>© 2026 FoodKin · yakında App Store'da</p>
+  </footer>
+
+  <script>
+    (function () {
+      var SUPABASE_URL = 'https://satfwzxpsbbvsakohwpi.supabase.co';
+      var SUPABASE_ANON_KEY = 'sb_publishable_18oMhbQVphgQ8JrGyWtsQw_0Z69wPfY';
+
+      var params = new URLSearchParams(location.search);
+      var source = params.get('utm_source') || params.get('ref') || 'direct';
+
+      var form = document.getElementById('waitlist-form');
+      var input = document.getElementById('email');
+      var btn = document.getElementById('submit-btn');
+      var msg = document.getElementById('msg');
+
+      function show(text, cls) {
+        msg.textContent = text;
+        msg.className = 'msg ' + cls;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = input.value.trim();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          show('Geçerli bir e-posta adresi gir.', 'err');
+          return;
+        }
+        btn.disabled = true;
+        show('', '');
+
+        fetch(SUPABASE_URL + '/rest/v1/waitlist_signups', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ email: email.toLowerCase(), source: source.slice(0, 64) })
+        }).then(function (res) {
+          if (res.ok) {
+            show('Listedesin! Çıktığımız gün haber vereceğiz. 🌿', 'ok');
+            form.reset();
+          } else if (res.status === 409) {
+            show('Bu adres zaten listede — merak etme, unutmadık.', 'ok');
+          } else {
+            show('Bir şeyler ters gitti, biraz sonra tekrar dener misin?', 'err');
+          }
+        }).catch(function () {
+          show('Bağlantı kurulamadı. İnternetini kontrol edip tekrar dene.', 'err');
+        }).finally(function () {
+          btn.disabled = false;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
