@@ -10,6 +10,10 @@ import pathlib
 ROOT = pathlib.Path(__file__).parent
 BASE_URL = "https://berkayaskar06.github.io/foodkin-landing/"
 
+def js_escape(s: str) -> str:
+    return s.replace("\\", "\\\\").replace("'", "\\'")
+
+
 template = (ROOT / "template.html").read_text(encoding="utf-8")
 locales = json.loads((ROOT / "locales.json").read_text(encoding="utf-8"))
 
@@ -59,11 +63,12 @@ for code, loc in locales.items():
         "{{F3_H}}": loc["f3_h"], "{{F3_P}}": loc["f3_p"],
         "{{F4_H}}": loc["f4_h"], "{{F4_P}}": loc["f4_p"],
         "{{FOOTER_SOON}}": loc["footer_soon"],
-        "{{MSG_BAD_EMAIL}}": loc["msg_bad_email"],
-        "{{MSG_OK}}": loc["msg_ok"],
-        "{{MSG_DUP}}": loc["msg_dup"],
-        "{{MSG_ERR}}": loc["msg_err"],
-        "{{MSG_CONN}}": loc["msg_conn"],
+        # These land inside single-quoted JS strings — escape backslashes and quotes.
+        "{{MSG_BAD_EMAIL}}": js_escape(loc["msg_bad_email"]),
+        "{{MSG_OK}}": js_escape(loc["msg_ok"]),
+        "{{MSG_DUP}}": js_escape(loc["msg_dup"]),
+        "{{MSG_ERR}}": js_escape(loc["msg_err"]),
+        "{{MSG_CONN}}": js_escape(loc["msg_conn"]),
         "{{BASE_PATH}}": BASE_URL,
         "{{LOCALE_PATHS_JSON}}": locale_paths_json,
         "{{IS_ROOT}}": "yes" if loc["path"] == "" else "no",

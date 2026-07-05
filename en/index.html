@@ -335,15 +335,15 @@
           body: JSON.stringify({ email: email.toLowerCase(), source: source.slice(0, 64) })
         }).then(function (res) {
           if (res.ok) {
-            show('You're on the list! We'll let you know on launch day. 🌿', 'ok');
+            show('You\'re on the list! We\'ll let you know on launch day. 🌿', 'ok');
             form.reset();
           } else if (res.status === 409) {
-            show('That address is already on the list — don't worry, we haven't forgotten you.', 'ok');
+            show('That address is already on the list — don\'t worry, we haven\'t forgotten you.', 'ok');
           } else {
             show('Something went wrong — mind trying again in a bit?', 'err');
           }
         }).catch(function () {
-          show('Couldn't connect. Check your internet and try again.', 'err');
+          show('Couldn\'t connect. Check your internet and try again.', 'err');
         }).finally(function () {
           btn.disabled = false;
         });
