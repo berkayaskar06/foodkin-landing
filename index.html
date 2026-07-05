@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FoodKin — Pantry Tracker, AI Recipes & Food Waste App</title>
+  <title>FoodKin. Pantry Tracker, AI Recipes & Food Waste App</title>
   <meta name="description" content="Track your pantry with barcode, receipt and shelf-photo scanning, get AI recipes from what you already have, and see food waste in money. Coming soon to iOS and Android." />
   <link rel="canonical" href="https://berkayaskar06.github.io/foodkin-landing/" />
   <link rel="alternate" hreflang="en" href="https://berkayaskar06.github.io/foodkin-landing/" />
@@ -14,7 +14,7 @@
   <link rel="alternate" hreflang="pt" href="https://berkayaskar06.github.io/foodkin-landing/pt/" />
   <link rel="alternate" hreflang="x-default" href="https://berkayaskar06.github.io/foodkin-landing/" />
   <!-- Open Graph -->
-  <meta property="og:title" content="FoodKin — The kitchen assistant that knows what's in your home" />
+  <meta property="og:title" content="FoodKin. The kitchen assistant that knows what's in your home" />
   <meta property="og:description" content="Pantry tracking, AI recipes and waste insights in one app. Join the waitlist and be first to know at launch." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://berkayaskar06.github.io/foodkin-landing/" />
@@ -38,14 +38,19 @@
   <style>
     :root {
       --paper: #FFFDF9;
+      --card: #FFFFFF;
       --ink: #33302A;
       --ink-soft: #6B6560;
       --green: #4A7C59;
       --green-dark: #3D6549;
+      --green-tint: #EFF4F0;
       --orange: #E67E30;
+      --amber-bg: #FBF1E6;
       --line: #E8E3DA;
+      --r: 12px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       background: var(--paper);
       color: var(--ink);
@@ -54,125 +59,203 @@
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
-    h1, h2, .serif {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 400;
-      line-height: 1.2;
-    }
-    .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; line-height: 1.15; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    .narrow { max-width: 640px; }
 
-    header { padding: 48px 0 0; }
+    /* ── header ─────────────────────────────── */
+    header { padding: 28px 0; }
     .topbar { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-    .brand {
-      font-family: Georgia, serif;
-      font-size: 22px;
-      color: var(--green);
-      letter-spacing: 0.02em;
-    }
+    .brand { font-family: Georgia, serif; font-size: 22px; color: var(--green); letter-spacing: 0.02em; }
     .brand em { font-style: normal; color: var(--orange); }
     nav.langs { font-size: 13px; }
-    nav.langs a {
-      color: var(--ink-soft);
-      text-decoration: none;
-      margin-inline-start: 10px;
-    }
+    nav.langs a { color: var(--ink-soft); text-decoration: none; margin-inline-start: 10px; }
     nav.langs a[aria-current="true"] { color: var(--green); font-weight: 700; }
-    nav.langs a:hover { color: var(--green-dark); }
 
-    .hero { padding: 64px 0 40px; }
-    .hero h1 { font-size: clamp(34px, 6vw, 48px); margin-bottom: 20px; }
+    /* ── hero ───────────────────────────────── */
+    .hero { padding: 48px 0 72px; display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
+    @media (min-width: 900px) { .hero { grid-template-columns: 6fr 5fr; padding-top: 56px; } }
+    .hero h1 { font-size: clamp(30px, 3.8vw, 42px); margin-bottom: 18px; }
     .hero h1 .accent { color: var(--green); }
-    .hero p.lead { font-size: 19px; color: var(--ink-soft); max-width: 34em; }
+    .hero .lead { font-size: 19px; color: var(--ink-soft); max-width: 30em; margin-bottom: 28px; }
 
-    .stores { display: flex; gap: 12px; flex-wrap: wrap; padding: 28px 0 0; }
-    .store-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 6px 18px;
-      border: 1.5px solid var(--line);
-      border-radius: 12px;
-      background: #fff;
-      color: var(--ink);
-    }
-    .store-badge svg { flex: 0 0 auto; }
-    .store-badge .lines { line-height: 1.25; }
-    .store-badge .soon {
-      display: block;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--orange);
-      font-weight: 700;
-    }
-    .store-badge .store { display: block; font-size: 15px; font-weight: 600; }
-
-    .signup { padding: 40px 0 64px; }
     .signup form { display: flex; gap: 10px; flex-wrap: wrap; }
     .signup input[type="email"] {
-      flex: 1 1 260px;
-      min-height: 52px;
-      padding: 0 16px;
-      font-size: 17px;
-      font-family: inherit;
-      color: var(--ink);
-      background: #fff;
-      border: 1.5px solid var(--line);
-      border-radius: 10px;
-      outline: none;
+      flex: 1 1 240px; min-height: 52px; padding: 0 16px;
+      font-size: 17px; font-family: inherit; color: var(--ink);
+      background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); outline: none;
+      transition: border-color 0.2s;
     }
     .signup input[type="email"]:focus { border-color: var(--green); }
     .signup button {
-      min-height: 52px;
-      padding: 0 26px;
-      font-size: 17px;
-      font-family: inherit;
-      font-weight: 600;
-      color: #fff;
-      background: var(--green);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      min-height: 52px; padding: 0 26px; font-size: 17px; font-family: inherit; font-weight: 600;
+      color: #fff; background: var(--green); border: none; border-radius: var(--r); cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
     }
     .signup button:hover { background: var(--green-dark); }
+    .signup button:active { transform: scale(0.98); }
     .signup button:disabled { opacity: 0.6; cursor: default; }
-    .signup .note { font-size: 14px; color: var(--ink-soft); margin-top: 12px; }
-    .signup .msg { margin-top: 14px; font-size: 16px; display: none; }
+    .signup .msg { margin-top: 12px; font-size: 16px; display: none; }
     .signup .msg.ok { display: block; color: var(--green-dark); }
     .signup .msg.err { display: block; color: #A94434; }
 
-    .rule { border: none; border-top: 1px solid var(--line); margin: 0; }
-
-    .features { padding: 56px 0; }
-    .features h2 { font-size: 26px; margin-bottom: 36px; }
-    .feature { display: flex; gap: 18px; margin-bottom: 32px; align-items: baseline; }
-    .feature .num {
-      font-family: Georgia, serif;
-      font-size: 22px;
-      color: var(--orange);
-      flex: 0 0 32px;
+    .stores { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .store-badge {
+      display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 5px 16px;
+      border: 1.5px solid var(--line); border-radius: var(--r); background: var(--card); color: var(--ink);
     }
-    .feature h3 { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
-    .feature p { color: var(--ink-soft); font-size: 16px; max-width: 32em; }
+    .store-badge .soon { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--orange); font-weight: 700; }
+    .store-badge .store { display: block; font-size: 14px; font-weight: 600; line-height: 1.2; }
 
-    footer { padding: 40px 0 56px; }
+    /* ── hero vignette: mini pantry UI ──────── */
+    .vignette { position: relative; }
+    .vg-card {
+      background: var(--card); border: 1.5px solid var(--line); border-radius: 16px;
+      padding: 22px; box-shadow: 0 20px 50px rgba(74, 124, 89, 0.10);
+      max-width: 400px; margin-inline: auto;
+    }
+    .vg-title { font-family: Georgia, serif; font-size: 17px; margin-bottom: 14px; color: var(--green-dark); }
+    .vg-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding: 11px 12px; border-radius: 10px; background: var(--paper);
+      margin-bottom: 8px; font-size: 15px;
+      opacity: 0; transform: translateY(10px);
+    }
+    .vg-row .qty { color: var(--ink-soft); font-size: 13px; }
+    .vg-badge {
+      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+      background: var(--amber-bg); color: #A05A18; white-space: nowrap;
+    }
+    .vg-recipe {
+      margin-top: 14px; padding: 14px; border-radius: 12px;
+      background: var(--green-tint); border: 1px solid #DCE7DF;
+      opacity: 0; transform: translateY(12px);
+    }
+    .vg-recipe .name { font-family: Georgia, serif; font-size: 16px; color: var(--green-dark); }
+    .vg-recipe .tag { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+    .inview .vg-row { animation: rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .inview .vg-row:nth-child(2) { animation-delay: 0.15s; }
+    .inview .vg-row:nth-child(3) { animation-delay: 0.55s; }
+    .inview .vg-row:nth-child(4) { animation-delay: 0.95s; }
+    .inview .vg-recipe { animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards; }
+
+    /* ── how it works ───────────────────────── */
+    .how { padding: 72px 0 24px; border-top: 1px solid var(--line); }
+    .how > .wrap > h2 { font-size: clamp(26px, 3.2vw, 34px); margin-bottom: 48px; }
+    .step {
+      display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center;
+      padding: 28px 0 44px;
+    }
+    @media (min-width: 820px) {
+      .step { grid-template-columns: 1fr 1fr; gap: 56px; }
+      .step:nth-of-type(even) .step-demo { order: -1; }
+    }
+    .step h3 { font-size: 24px; margin-bottom: 10px; }
+    .step p { color: var(--ink-soft); max-width: 30em; }
+    .step-demo { min-height: 190px; display: flex; align-items: center; justify-content: center; }
+
+    /* demo 1: scan */
+    .demo-scan { width: 100%; max-width: 340px; }
+    .scan-box {
+      position: relative; overflow: hidden; border-radius: 14px; border: 1.5px solid var(--line);
+      background: var(--card); padding: 20px; height: 108px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .barcode { display: flex; gap: 4px; align-items: stretch; height: 52px; }
+    .barcode i { display: block; width: 3px; background: var(--ink); opacity: 0.85; }
+    .barcode i:nth-child(2n) { width: 5px; }
+    .barcode i:nth-child(3n) { width: 2px; opacity: 0.6; }
+    .scan-line {
+      position: absolute; left: 8%; right: 8%; height: 2px; top: 12%;
+      background: var(--orange); opacity: 0; border-radius: 2px;
+    }
+    .inview .scan-line { animation: sweep 1.6s ease-in-out 0.2s 2; }
+    .scan-result {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 12px; padding: 12px 14px; border-radius: 10px;
+      background: var(--green-tint); font-size: 15px;
+      opacity: 0; transform: translateY(8px);
+    }
+    .scan-result .ok { color: var(--green-dark); font-weight: 600; font-size: 13px; }
+    .inview .scan-result { animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 3.3s forwards; }
+
+    /* demo 2: recipe from chips */
+    .demo-recipe { width: 100%; max-width: 340px; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .chip {
+      padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--line);
+      background: var(--card); font-size: 14px;
+      opacity: 0; transform: scale(0.85);
+    }
+    .inview .chip { animation: pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .inview .chip:nth-child(2) { animation-delay: 0.15s; }
+    .inview .chip:nth-child(3) { animation-delay: 0.3s; }
+    .demo-recipe .vg-recipe { max-width: 300px; margin-inline: auto; }
+    .inview .demo-recipe .vg-recipe { animation-delay: 0.9s; }
+
+    /* demo 3: alert → savings */
+    .demo-save { width: 100%; max-width: 340px; }
+    .alert-pill {
+      display: block; text-align: center; padding: 12px 16px; border-radius: 12px;
+      background: var(--amber-bg); color: #A05A18; font-size: 15px; font-weight: 600;
+      opacity: 0; transform: translateY(8px);
+    }
+    .inview .alert-pill { animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; }
+    .saved-box { text-align: center; margin-top: 18px; opacity: 0; }
+    .inview .saved-box { animation: fadein 0.6s ease 1s forwards; }
+    .saved-box .amount { font-family: Georgia, serif; font-size: 44px; color: var(--green-dark); line-height: 1.1; }
+    .saved-box .label { font-size: 14px; color: var(--ink-soft); }
+
+    /* ── savings section ────────────────────── */
+    .savings { padding: 88px 0; border-top: 1px solid var(--line); text-align: center; }
+    .savings h2 { font-size: clamp(26px, 3.4vw, 38px); max-width: 22em; margin: 0 auto 12px; }
+    .savings .big {
+      font-family: Georgia, serif; font-size: clamp(56px, 9vw, 96px);
+      color: var(--green); line-height: 1.1; margin: 24px 0 12px; font-variant-numeric: tabular-nums;
+    }
+    .savings p { color: var(--ink-soft); max-width: 34em; margin: 0 auto; }
+
+    /* ── household + CTA ────────────────────── */
+    .final { padding: 72px 0 88px; border-top: 1px solid var(--line); }
+    .final .inner { text-align: center; max-width: 640px; margin: 0 auto; }
+    .final h2 { font-size: clamp(26px, 3.2vw, 34px); margin-bottom: 10px; }
+    .final .hh { color: var(--ink-soft); margin-bottom: 30px; }
+    .final .cta-btn {
+      display: inline-block; min-height: 52px; line-height: 52px; padding: 0 30px;
+      font-size: 17px; font-weight: 600; color: #fff; background: var(--green);
+      border-radius: var(--r); text-decoration: none; transition: background 0.2s, transform 0.1s;
+    }
+    .final .cta-btn:hover { background: var(--green-dark); }
+    .final .cta-btn:active { transform: scale(0.98); }
+    .final .sub { font-size: 14px; color: var(--ink-soft); margin-top: 14px; }
+
+    footer { padding: 36px 0 56px; border-top: 1px solid var(--line); }
     footer p { font-size: 14px; color: var(--ink-soft); }
-    footer .social a {
-      color: var(--green);
-      text-decoration: none;
-      font-weight: 600;
-      margin-inline-end: 16px;
-    }
-    footer .social { margin-bottom: 10px; }
+    footer .social { margin-bottom: 8px; }
+    footer .social a { color: var(--green); text-decoration: none; font-weight: 600; margin-inline-end: 16px; }
+    footer a.quiet { color: var(--ink-soft); }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .hero, .signup { animation: rise 0.6s ease both; }
-      .signup { animation-delay: 0.1s; }
-      @keyframes rise {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: none; }
+    /* ── reveal + keyframes ─────────────────── */
+    .reveal { opacity: 0; transform: translateY(18px); }
+    .reveal.inview { animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    @keyframes fadein { to { opacity: 1; } }
+    @keyframes pop { to { opacity: 1; transform: scale(1); } }
+    @keyframes sweep {
+      0% { opacity: 0; top: 12%; }
+      15% { opacity: 1; }
+      50% { top: 82%; }
+      85% { opacity: 1; }
+      100% { opacity: 0; top: 12%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal, .vg-row, .vg-recipe, .chip, .scan-result, .alert-pill, .saved-box {
+        opacity: 1 !important; transform: none !important; animation: none !important;
       }
+      .scan-line { display: none; }
     }
   </style>
 </head>
@@ -192,70 +275,121 @@
   </header>
 
   <main>
-    <section class="hero wrap">
-      <h1>The kitchen assistant that <span class="accent">knows</span> what's in your home</h1>
-      <p class="lead">Stop wondering what you bought, what's about to expire and what to cook this week. FoodKin knows your pantry, suggests recipes and shows your waste in real money.</p>
+    <!-- HERO: copy + form left, live pantry vignette right -->
+    <section class="hero wrap" id="join">
+      <div>
+        <h1>The kitchen assistant that <span class="accent">knows</span> what's in your home</h1>
+        <p class="lead">It tracks your pantry, warns before food expires, and turns what you already have into tonight's dinner.</p>
 
-      <div class="stores">
-        <span class="store-badge">
-          <svg width="22" height="26" viewBox="0 0 22 26" aria-hidden="true"><path fill="#33302A" d="M18.1 13.8c0-3 2.5-4.5 2.6-4.6-1.4-2.1-3.6-2.4-4.4-2.4-1.9-.2-3.7 1.1-4.6 1.1-1 0-2.4-1.1-4-1.1C5.6 6.8 3.7 8 2.7 9.9c-2.1 3.7-.5 9.1 1.5 12.1 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 3.9-1s2.3 1 4 .9c1.6 0 2.7-1.5 3.7-2.9 1.2-1.7 1.6-3.3 1.7-3.4-.1-.1-3.2-1.3-3.2-4.8zM15 4.8c.8-1 1.4-2.4 1.2-3.8-1.2 0-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.6-1.7z"/></svg>
-          <span class="lines"><span class="soon">Coming soon</span><span class="store">App Store</span></span>
-        </span>
-        <span class="store-badge">
-          <svg width="22" height="24" viewBox="0 0 24 26" aria-hidden="true"><path fill="#4A7C59" d="M1.5.9C1.2 1.3 1 1.9 1 2.6v20.8c0 .7.2 1.3.5 1.7l.1.1L13.3 13.6v-.3L1.6.8l-.1.1z"/><path fill="#E67E30" d="M17.2 17.5l-3.9-3.9v-.3l3.9-3.9.1.1 4.6 2.6c1.3.8 1.3 2 0 2.7l-4.6 2.6-.1.1z"/><path fill="#6B6560" d="M17.3 17.4L13.3 13.4 1.5 25.2c.4.5 1.1.5 1.9.1l13.9-7.9z"/><path fill="#33302A" d="M17.3 9.5L3.4-.4C2.6-.8 1.9-.8 1.5-.3l11.8 11.8 4-4z" opacity=".9"/></svg>
-          <span class="lines"><span class="soon">Coming soon</span><span class="store">Google Play</span></span>
-        </span>
-      </div>
-    </section>
+        <div class="signup">
+          <form class="waitlist-form" novalidate>
+            <input type="email" name="email" placeholder="your email address" required autocomplete="email" inputmode="email" aria-label="Email address" />
+            <button type="submit">Join the waitlist</button>
+          </form>
+          <p class="msg" role="status"></p>
+        </div>
 
-    <section class="signup wrap">
-      <form id="waitlist-form" novalidate>
-        <input type="email" id="email" name="email" placeholder="your email address" required autocomplete="email" inputmode="email" aria-label="Email address" />
-        <button type="submit" id="submit-btn">Join the waitlist</button>
-      </form>
-      <p class="note">Coming soon to iOS and Android. We'll email you on launch day — no other emails, no spam.</p>
-      <p class="msg" id="msg" role="status"></p>
-    </section>
-
-    <hr class="rule" />
-
-    <section class="features wrap">
-      <h2>From shopping to waste, the whole loop in one place</h2>
-
-      <div class="feature">
-        <span class="num">01</span>
-        <div>
-          <h3>A pantry in seconds</h3>
-          <p>Scan a barcode, snap your grocery receipt or photograph a shelf — FoodKin recognizes the products and adds them to your pantry. No manual lists.</p>
+        <div class="stores">
+          <span class="store-badge">
+            <span><span class="soon">Coming soon</span><span class="store">App Store</span></span>
+          </span>
+          <span class="store-badge">
+            <span><span class="soon">Coming soon</span><span class="store">Google Play</span></span>
+          </span>
         </div>
       </div>
 
-      <div class="feature">
-        <span class="num">02</span>
-        <div>
-          <h3>Recipes from what you have</h3>
-          <p>Your pantry answers "what should I cook tonight?". AI generates recipes from ingredients you actually have; missing items drop onto your shopping list in one tap.</p>
-        </div>
-      </div>
-
-      <div class="feature">
-        <span class="num">03</span>
-        <div>
-          <h3>See waste as money</h3>
-          <p>Timely alerts before food expires, and a monthly tally of what was saved versus what hit the bin. Small habits, visible savings.</p>
-        </div>
-      </div>
-
-      <div class="feature">
-        <span class="num">04</span>
-        <div>
-          <h3>One pantry for the whole household</h3>
-          <p>Your flatmate went shopping while you were cooking — everyone sees the same pantry and the same list, instantly.</p>
+      <div class="vignette" data-animate aria-hidden="true">
+        <div class="vg-card">
+          <div class="vg-title">FoodKin</div>
+          <div class="vg-row"><span>Milk</span><span class="qty">1 L</span></div>
+          <div class="vg-row"><span>Tomatoes</span><span class="vg-badge">2 days left</span></div>
+          <div class="vg-row"><span>Chicken</span><span class="qty">500 g</span></div>
+          <div class="vg-recipe">
+            <div class="name">Creamy tomato chicken</div>
+            <div class="tag">From your pantry, tonight</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <hr class="rule" />
+    <!-- HOW IT WORKS: 3 steps, each with an animated mini-demo -->
+    <section class="how">
+      <div class="wrap">
+        <h2 class="reveal" data-animate>How FoodKin works</h2>
+
+        <div class="step">
+          <div class="reveal" data-animate>
+            <h3>A pantry in seconds</h3>
+            <p>Scan a barcode, snap your grocery receipt or photograph a shelf. FoodKin recognizes the products and adds them to your pantry. No manual lists.</p>
+          </div>
+          <div class="step-demo" data-animate aria-hidden="true">
+            <div class="demo-scan">
+              <div class="scan-box">
+                <div class="barcode"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="scan-line"></div>
+              </div>
+              <div class="scan-result"><span>Milk · 1 L</span><span class="ok">Added to pantry</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="reveal" data-animate>
+            <h3>Recipes from what you have</h3>
+            <p>Your pantry answers "what should I cook tonight?". AI generates recipes from ingredients you actually have; missing items drop onto your shopping list in one tap.</p>
+          </div>
+          <div class="step-demo" data-animate aria-hidden="true">
+            <div class="demo-recipe">
+              <div class="chips">
+                <span class="chip">Milk</span>
+                <span class="chip">Tomatoes</span>
+                <span class="chip">Chicken</span>
+              </div>
+              <div class="vg-recipe" style="margin-top:14px">
+                <div class="name">Creamy tomato chicken</div>
+                <div class="tag">From your pantry, tonight</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="reveal" data-animate>
+            <h3>See waste as money</h3>
+            <p>Timely alerts before food expires, and a monthly tally of what was saved versus what hit the bin. Small habits, visible savings.</p>
+          </div>
+          <div class="step-demo" data-animate aria-hidden="true">
+            <div class="demo-save">
+              <span class="alert-pill">Use the tomatoes soon</span>
+              <div class="saved-box">
+                <div class="amount">$38</div>
+                <div class="label">saved this month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAVINGS: the one big number -->
+    <section class="savings">
+      <div class="wrap" data-animate>
+        <h2 class="reveal" data-animate>The average household bins $1,500 of food a year.</h2>
+        <div class="big" id="ticker" data-count="1500" data-prefix="$" data-suffix="">$0</div>
+        <p class="reveal" data-animate>FoodKin shows you the number, then helps you shrink it.</p>
+      </div>
+    </section>
+
+    <!-- HOUSEHOLD + FINAL CTA -->
+    <section class="final">
+      <div class="wrap inner">
+        <h2 class="reveal" data-animate>Be there on day one</h2>
+        <p class="hh reveal" data-animate>Your flatmate went shopping while you were cooking. Everyone sees the same pantry and the same list, instantly.</p>
+        <a class="cta-btn" href="#join">Join the waitlist</a>
+        <p class="sub">One email at launch. Nothing else.</p>
+      </div>
+    </section>
   </main>
 
   <footer class="wrap">
@@ -263,7 +397,7 @@
       <a href="https://www.tiktok.com/@foodkinapp">TikTok</a>
       <a href="https://www.instagram.com/foodkinapp">Instagram</a>
     </p>
-    <p>© 2026 FoodKin · coming soon to iOS and Android · <a href="https://berkayaskar06.github.io/foodkin-landing/privacy/" style="color:#6B6560">Privacy Policy</a></p>
+    <p>© 2026 FoodKin · coming soon to iOS and Android · <a class="quiet" href="https://berkayaskar06.github.io/foodkin-landing/privacy/">Privacy Policy</a></p>
   </footer>
 
   <script>
@@ -273,16 +407,14 @@
       var THIS_LANG = 'en';
       var BASE = 'https://berkayaskar06.github.io/foodkin-landing/';
       var LOCALES = {"en": "", "tr": "tr/", "es": "es/", "zh": "zh/", "ar": "ar/", "pt": "pt/"};
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Remember explicit language choice from the switcher.
       document.querySelectorAll('nav.langs a').forEach(function (a) {
         a.addEventListener('click', function () {
           try { localStorage.setItem('foodkin_lang', a.getAttribute('data-lang')); } catch (e) {}
         });
       });
 
-      // Auto-redirect by browser language: root (tr) page only, once per
-      // session, never overriding an explicit stored choice of this page.
       if ('yes' === 'yes') {
         try {
           var stored = localStorage.getItem('foodkin_lang');
@@ -301,51 +433,87 @@
         } catch (e) {}
       }
 
+      // Scroll-triggered animation: IntersectionObserver only, no scroll listeners.
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('inview');
+          if (entry.target.querySelector && entry.target.querySelector('#ticker')) startTicker();
+          if (entry.target.id === 'ticker') startTicker();
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('[data-animate]').forEach(function (el) { io.observe(el); });
+
+      var tickerStarted = false;
+      function startTicker() {
+        if (tickerStarted) return;
+        tickerStarted = true;
+        var el = document.getElementById('ticker');
+        if (!el) return;
+        var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+        var prefix = el.getAttribute('data-prefix') || '';
+        var suffix = el.getAttribute('data-suffix') || '';
+        var fmt = new Intl.NumberFormat(THIS_LANG);
+        if (reduceMotion) { el.textContent = prefix + fmt.format(target) + suffix; return; }
+        var start = null;
+        var DURATION = 1400;
+        function frame(ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts - start) / DURATION, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = prefix + fmt.format(Math.round(target * eased)) + suffix;
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+
       var params = new URLSearchParams(location.search);
       var source = params.get('utm_source') || params.get('ref') || 'direct';
 
-      var form = document.getElementById('waitlist-form');
-      var input = document.getElementById('email');
-      var btn = document.getElementById('submit-btn');
-      var msg = document.getElementById('msg');
+      document.querySelectorAll('.waitlist-form').forEach(function (form) {
+        var input = form.querySelector('input[type="email"]');
+        var btn = form.querySelector('button');
+        var msg = form.parentElement.querySelector('.msg');
 
-      function show(text, cls) {
-        msg.textContent = text;
-        msg.className = 'msg ' + cls;
-      }
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var email = input.value.trim();
-        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-          show('Please enter a valid email address.', 'err');
-          return;
+        function show(text, cls) {
+          msg.textContent = text;
+          msg.className = 'msg ' + cls;
         }
-        btn.disabled = true;
-        show('', '');
 
-        fetch(SUPABASE_URL + '/rest/v1/waitlist_signups', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({ email: email.toLowerCase(), source: source.slice(0, 64) })
-        }).then(function (res) {
-          if (res.ok) {
-            show('You\'re on the list! We\'ll let you know on launch day. 🌿', 'ok');
-            form.reset();
-          } else if (res.status === 409) {
-            show('That address is already on the list — don\'t worry, we haven\'t forgotten you.', 'ok');
-          } else {
-            show('Something went wrong — mind trying again in a bit?', 'err');
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = input.value.trim();
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+            show('Please enter a valid email address.', 'err');
+            return;
           }
-        }).catch(function () {
-          show('Couldn\'t connect. Check your internet and try again.', 'err');
-        }).finally(function () {
-          btn.disabled = false;
+          btn.disabled = true;
+          show('', '');
+
+          fetch(SUPABASE_URL + '/rest/v1/waitlist_signups', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({ email: email.toLowerCase(), source: source.slice(0, 64) })
+          }).then(function (res) {
+            if (res.ok) {
+              show('You\'re on the list! We\'ll let you know on launch day. 🌿', 'ok');
+              form.reset();
+            } else if (res.status === 409) {
+              show('That address is already on the list. Don\'t worry, we haven\'t forgotten you.', 'ok');
+            } else {
+              show('Something went wrong. Mind trying again in a bit?', 'err');
+            }
+          }).catch(function () {
+            show('Couldn\'t connect. Check your internet and try again.', 'err');
+          }).finally(function () {
+            btn.disabled = false;
+          });
         });
       });
     })();

@@ -5,6 +5,7 @@ Usage: python3 build.py
 Output: index.html (tr, root) + <lang>/index.html per locale + sitemap.xml
 """
 import json
+import re
 import pathlib
 
 ROOT = pathlib.Path(__file__).parent
@@ -38,43 +39,29 @@ for code, loc in locales.items():
         )
 
     page = template
-    replacements = {
+    # Generic: every string key in the locale maps to {{KEY_UPPER}}.
+    # Keys landing inside single-quoted JS strings get escaped.
+    JS_KEYS = {"msg_bad_email", "msg_ok", "msg_dup", "msg_err", "msg_conn"}
+    replacements = {}
+    for key, value in loc.items():
+        if isinstance(value, str):
+            replacements["{{" + key.upper() + "}}"] = (
+                js_escape(value) if key in JS_KEYS else value
+            )
+    replacements.update({
         "{{LANG}}": code,
-        "{{DIR}}": loc["dir"],
-        "{{TITLE}}": loc["title"],
-        "{{META_DESC}}": loc["meta_desc"],
-        "{{OG_TITLE}}": loc["og_title"],
-        "{{OG_DESC}}": loc["og_desc"],
-        "{{OG_LOCALE}}": loc["og_locale"],
         "{{CANONICAL}}": BASE_URL + loc["path"],
         "{{HREFLANG_LINKS}}": hreflang_block,
-        "{{LANG_NAV_LABEL}}": loc["lang_nav_label"],
         "{{LANG_SWITCHER}}": "\n".join(switcher_lines),
-        "{{HERO_H1}}": loc["hero_h1"],
-        "{{LEAD}}": loc["lead"],
-        "{{SOON}}": loc["soon"],
-        "{{EMAIL_PLACEHOLDER}}": loc["email_placeholder"],
-        "{{EMAIL_ARIA}}": loc["email_aria"],
-        "{{SUBMIT}}": loc["submit"],
-        "{{NOTE}}": loc["note"],
-        "{{FEATURES_H2}}": loc["features_h2"],
-        "{{F1_H}}": loc["f1_h"], "{{F1_P}}": loc["f1_p"],
-        "{{F2_H}}": loc["f2_h"], "{{F2_P}}": loc["f2_p"],
-        "{{F3_H}}": loc["f3_h"], "{{F3_P}}": loc["f3_p"],
-        "{{F4_H}}": loc["f4_h"], "{{F4_P}}": loc["f4_p"],
-        "{{FOOTER_SOON}}": loc["footer_soon"],
-        # These land inside single-quoted JS strings — escape backslashes and quotes.
-        "{{MSG_BAD_EMAIL}}": js_escape(loc["msg_bad_email"]),
-        "{{MSG_OK}}": js_escape(loc["msg_ok"]),
-        "{{MSG_DUP}}": js_escape(loc["msg_dup"]),
-        "{{MSG_ERR}}": js_escape(loc["msg_err"]),
-        "{{MSG_CONN}}": js_escape(loc["msg_conn"]),
         "{{BASE_PATH}}": BASE_URL,
         "{{LOCALE_PATHS_JSON}}": locale_paths_json,
         "{{IS_ROOT}}": "yes" if loc["path"] == "" else "no",
-    }
+    })
     for key, value in replacements.items():
         page = page.replace(key, value)
+    leftover = re.findall(r"\{\{[A-Z0-9_]+\}\}", page)
+    if leftover:
+        raise SystemExit(f"{code}: unreplaced placeholders: {sorted(set(leftover))}")
 
     out = ROOT / loc["path"] / "index.html" if loc["path"] else ROOT / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
